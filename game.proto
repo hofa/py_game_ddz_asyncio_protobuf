@@ -1,0 +1,162 @@
+syntax = "proto3";
+package game;
+
+message Response {
+    bool succ = 1;
+    int32 code = 2;
+    string mess = 3;
+}
+
+// 玩家登录
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    Response response = 1;
+    string auth = 2;
+}
+
+// 玩家注册
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    Response response = 1;
+    string auth = 2;
+}
+
+// 房间列表
+message RoomListRequest {
+}
+
+message RoomListResponse {
+    Response response = 1;
+    message Room {
+        string id = 1;
+        string ico = 2;
+        string name = 3;
+        int32 online_num = 4;
+    }
+    repeated Room room = 2;
+}
+
+// 增加房间
+message AddRoomRequest {
+    string id = 1;
+}
+
+message AddRoomResponse {
+    Response response = 1;
+}
+
+// 进入房间
+message EntryRoomRequest {
+    string id = 1;
+}
+
+message EntryRoomResponse {
+    Response response = 1;
+}
+
+// 离开房间
+message LeaveRoomRequest {
+}
+
+message LeaveRoomResponse {
+    Response response = 1;
+}
+
+// 心跳上报
+message HeartRequest {
+    string ver = 1;
+}
+
+message HeartResponse {
+    Response response = 1;
+}
+
+// 游戏开始通知
+message GameStartNotify {
+    Response response = 1;
+    string room_id = 2;
+    string node_id = 3;
+    message Player {
+        string username = 1;
+        int32 card_num = 2;
+    }
+    repeated Player player = 4;
+    string first = 5;
+    string username = 6;
+    repeated int32 card = 7;
+}
+
+// 游戏结束通知
+message GameOverNotify {
+    Response response = 1;
+    string room_id = 2;
+    string node_id = 3;
+    string win = 4;
+    string username = 5;
+    repeated int32 card = 6;
+}
+
+// 排队通知
+message GameQueueNotify {
+    Response response = 1;
+    int32 entry_num = 2;
+}
+
+// 发牌通知
+message GameFapaiNotify {
+    Response response = 1;
+    repeated int32 card = 2;
+}
+
+// 出牌通知
+message GameChupaiNotify {
+    Response response = 1;
+    repeated int32 card = 2;
+    string username = 3;
+    string next = 4;
+    string chupai = 5;
+    int32 timeout = 6;
+}
+
+// 出牌
+message GameChupaiRequest {
+    repeated int32 card = 1;
+}
+
+message GameChupaiResponse {
+    Response response = 1;
+}
+
+// 抢地主
+message GameZddzRequest {
+    bool z = 1;
+}
+
+message GameZddzResponse {
+    Response response = 1;
+}
+
+// 抢地主通知
+message GameZddzNotify {
+    Response response = 1;
+    enum ActionType {
+        CONTINUE = 0;
+        END_CHUPAI = 1;
+        END_RE_XAIPAI = 2;
+    }
+    ActionType action = 2;
+    string value = 3;
+    string username = 4;
+    repeated int32 card = 5;
+    int32 timeout = 6;
+    string zddz_username = 7;
+    bool z = 8;
+}
