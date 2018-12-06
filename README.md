@@ -15,3 +15,5 @@ python3 startTest.py
 
 # py3依赖安装
 pip3 install -e requirement.txt
+
+tag 0.0.1
